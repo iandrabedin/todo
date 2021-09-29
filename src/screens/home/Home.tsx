@@ -1,10 +1,6 @@
-import React, { Fragment, useState } from "react";
-import { MdCheckBoxOutlineBlank, MdCheckBox, MdDelete } from "react-icons/md";
-
-interface ITodoItem {
-  text: string;
-  isChecked: boolean;
-}
+import React, { useState } from "react";
+import TodoList from "../../components/TodoList";
+import { ITodoItem } from "../../types/todo";
 
 const Home = () => {
   const [todoText, setTodoText] = useState<string>("");
@@ -15,8 +11,8 @@ const Home = () => {
   };
 
   const removeTodo = (itemId: number) => {
-    todoList.splice(itemId, 1);
-    setTodoList(todoList);
+    const removedList = todoList.splice(itemId, 1);
+    setTodoList(removedList);
   };
 
   const checkTodo = (itemId: number) => {
@@ -50,15 +46,13 @@ const Home = () => {
       </div>
       <div>
         {todoList.map((item, index) => (
-          <div key={index} style={{ display: "flex" }}>
-            <button onClick={() => checkTodo(index)}>
-              {item.isChecked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
-            </button>
-            <p>{item.text}</p>
-            <button onClick={() => removeTodo(index)}>
-              <MdDelete />
-            </button>
-          </div>
+          <TodoList
+            id={index}
+            key={index}
+            item={item}
+            checkTodo={checkTodo}
+            removeTodo={removeTodo}
+          />
         ))}
       </div>
     </>
